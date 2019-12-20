@@ -29,6 +29,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <encoding>UTF-8</encoding>
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
+        <mockito-core.version>3.2.4</mockito-core.version>
     </properties>
 
 </project>
