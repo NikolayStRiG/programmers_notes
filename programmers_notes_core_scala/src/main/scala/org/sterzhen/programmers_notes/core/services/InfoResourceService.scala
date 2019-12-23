@@ -14,4 +14,34 @@ trait InfoResourceService {
    * @return Option[InfoResource]
    */
   def findById(id: Long): Option[InfoResource]
+
+  /**
+   * Create new InfoResource
+   *
+   * @param name        InfoResource name
+   * @param address     InfoResource address
+   * @param description InfoResource description
+   */
+  def create(name: String, address: String, description: String): InfoResource
+
+  /**
+   * Update InfoResource
+   *
+   * @param resource InfoResource
+   */
+  def update(resource: InfoResource)
+
+  /**
+   * Delete InfoResource
+   *
+   * @param resource InfoResource
+   */
+  def delete(resource: InfoResource)
+
+  /**
+   * Delete InfoResource by id
+   *
+   * @param id InfoResource id
+   */
+  def delete(id: Long)
 }

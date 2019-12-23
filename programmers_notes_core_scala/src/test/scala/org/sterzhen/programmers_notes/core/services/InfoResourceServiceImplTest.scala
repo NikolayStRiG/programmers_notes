@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Assertions._
 import org.mockito.quality.Strictness
 import org.mockito._
 import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers._
 import org.sterzhen.programmers_notes.core.damain.InfoResource
 import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository
 
 class InfoResourceServiceImplTest {
 
   @Mock
-  var infoResService: InfoResourceRepository = _
+  var infoResRepository: InfoResourceRepository = _
 
   var session: MockitoSession = _
 
@@ -27,10 +28,10 @@ class InfoResourceServiceImplTest {
 
   @Test
   def findByIdFoundTest(): Unit = {
-    val service = new InfoResourceServiceImpl(infoResService)
+    val service = new InfoResourceServiceImpl(infoResRepository)
 
-    val id:Long = 1
-    when(infoResService.findById(id)).thenReturn(Option.apply(new InfoResource(id, "", "", "")))
+    val id: Long = 1
+    when(infoResRepository.findById(id)).thenReturn(Option.apply(new InfoResource(id, "", "", "")))
 
     val result = service.findById(id)
 
@@ -41,13 +42,62 @@ class InfoResourceServiceImplTest {
 
   @Test
   def findByIdNotFoundTest(): Unit = {
-    val service = new InfoResourceServiceImpl(infoResService)
+    val service = new InfoResourceServiceImpl(infoResRepository)
 
-    val id:Long = 1
-    when(infoResService.findById(id)).thenReturn(Option.empty)
+    val id: Long = 1
+    when(infoResRepository.findById(id)).thenReturn(Option.empty)
 
     val result = service.findById(id)
 
     assertTrue(result.isEmpty)
+  }
+
+  @Test
+  def createTest(): Unit = {
+    val service = new InfoResourceServiceImpl(infoResRepository)
+    val id: Long = 2
+    val name: String = "name"
+    val address: String = "address"
+    val description: String = "description"
+
+    when(infoResRepository.nextEntityId()).thenReturn(id)
+
+    val result = service.create(name, address, description)
+
+    assertEquals(id, result.id)
+    assertEquals(name, result.name)
+    assertEquals(address, result.address)
+    assertEquals(description, result.description)
+
+    verify(infoResRepository, times(1)).nextEntityId()
+    verify(infoResRepository, times(1)).insert(any())
+  }
+
+  @Test
+  def createIllegalArgumentExceptionByNameTest(): Unit = {
+    val service = new InfoResourceServiceImpl(infoResRepository)
+    val name: String = "name"
+    val address: String = "address"
+    val description: String = "description"
+
+    when(infoResRepository.existByName(name)).thenReturn(true)
+
+    assertThrows(classOf[IllegalArgumentException], () => {
+      service.create(name, address, description)
+    })
+  }
+
+  @Test
+  def createIllegalArgumentExceptionByAddressTest(): Unit = {
+    val service = new InfoResourceServiceImpl(infoResRepository)
+    val name: String = "name"
+    val address: String = "address"
+    val description: String = "description"
+
+    when(infoResRepository.existByAddress(address)).thenReturn(true)
+
+    assertThrows(classOf[IllegalArgumentException], () => {
+      service.create(name, address, description)
+    })
   }
 }
