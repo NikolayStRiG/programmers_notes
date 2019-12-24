@@ -1,5 +1,6 @@
 package org.sterzhen.programmers_notes.core.services
 import org.sterzhen.programmers_notes.core.damain.InfoResource
+import org.sterzhen.programmers_notes.core.exceptions.EntityNotFoundException
 import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository
 
 /**
@@ -21,6 +22,12 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
    * @param description InfoResource description
    */
   override def create(name: String, address: String, description: String): InfoResource = {
+    if (name == null || name.isEmpty) {
+      throw new IllegalArgumentException("A name is empty")
+    }
+    if (address == null || address.isEmpty) {
+      throw new IllegalArgumentException("A address is empty")
+    }
     if (infoResRepository.existByName(name)) {
       throw new IllegalArgumentException("An entity with that name already exists")
     }
@@ -39,6 +46,17 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
    * @param resource InfoResource
    */
   override def update(resource: InfoResource): Unit = {
+    val oldOp = findById(resource.id)
+    if (oldOp.isEmpty) {
+      throw new EntityNotFoundException("Entity not found")
+    }
+    val old = oldOp.get
+    if (!old.name.equals(resource.name) && infoResRepository.existByName(resource.name)) {
+      throw new IllegalArgumentException("An entity with that name already exists")
+    }
+    if (!old.address.equals(resource.address) && infoResRepository.existByAddress(resource.address)) {
+      throw new IllegalArgumentException("An entity with that address already exists")
+    }
     infoResRepository.update(resource)
   }
 
@@ -57,6 +75,10 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
    * @param id InfoResource id
    */
   override def delete(id: Long): Unit = {
+    val old = infoResRepository.findById(id)
+    if (old.isEmpty) {
+      throw new EntityNotFoundException("Entity not found")
+    }
     infoResRepository.delete(id)
   }
 }

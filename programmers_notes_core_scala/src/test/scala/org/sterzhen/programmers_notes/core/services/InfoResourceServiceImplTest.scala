@@ -100,4 +100,36 @@ class InfoResourceServiceImplTest {
       service.create(name, address, description)
     })
   }
+
+  @Test
+  def createNameEmptyTest(): Unit = {
+    val service = new InfoResourceServiceImpl(infoResRepository)
+    val name: String = ""
+    val address: String = "address"
+    val description: String = "description"
+
+    assertThrows(classOf[IllegalArgumentException], () => {
+      service.create(null, address, description)
+    })
+
+    assertThrows(classOf[IllegalArgumentException], () => {
+      service.create(name, address, description)
+    })
+  }
+
+  @Test
+  def createAddressEmptyTest(): Unit = {
+    val service = new InfoResourceServiceImpl(infoResRepository)
+    val name: String = "name"
+    val address: String = ""
+    val description: String = "description"
+
+    assertThrows(classOf[IllegalArgumentException], () => {
+      service.create(name, null, description)
+    })
+
+    assertThrows(classOf[IllegalArgumentException], () => {
+      service.create(name, address, description)
+    })
+  }
 }
