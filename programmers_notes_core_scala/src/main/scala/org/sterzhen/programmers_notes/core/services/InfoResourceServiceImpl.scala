@@ -10,6 +10,12 @@ import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository
  */
 class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) extends InfoResourceService {
 
+  /**
+   * Find InfoResource by id
+   *
+   * @param id InfoResource id
+   * @return Option[InfoResource]
+   */
   override def findById(id: Long): Option[InfoResource] = {
     infoResRepository.findById(id)
   }
