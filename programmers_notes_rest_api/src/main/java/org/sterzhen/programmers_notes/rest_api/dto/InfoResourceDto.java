@@ -1,11 +1,24 @@
 package org.sterzhen.programmers_notes.rest_api.dto;
 
+/**
+ * Information resource
+ */
 public class InfoResourceDto {
 
     private Long id;
     private String name;
     private String address;
     private String description;
+
+    public InfoResourceDto() {
+    }
+
+    public InfoResourceDto(Long id, String name, String address, String description) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;

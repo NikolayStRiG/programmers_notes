@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.sterzhen.programmers_notes.core.services.InfoResourceService;
+import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceRestApi;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,10 @@ import java.awt.event.ActionListener;
 @SpringBootApplication
 public class MainUi implements CommandLineRunner {
 
-    private final InfoResourceService resourceService;
+    private final InfoResourceRestApi resourceService;
 
     @Autowired
-    public MainUi(InfoResourceService resourceService) {
+    public MainUi(InfoResourceRestApi resourceService) {
         this.resourceService = resourceService;
     }
 
@@ -34,7 +34,12 @@ public class MainUi implements CommandLineRunner {
         JTextField text = new JTextField("Spring Boot can be used with Swing apps");
         panel.add(text, BorderLayout.CENTER);
         Button button = createButton("get info", e -> {
-            text.setText(resourceService.findById(1L).toString());
+            try {
+                var r = resourceService.getById(1L);
+                text.setText(r == null ? "" : r.toString());
+            } catch (Exception ex) {
+                text.setText(ex.getMessage());
+            }
         });
         panel.add(button, BorderLayout.SOUTH);
 
