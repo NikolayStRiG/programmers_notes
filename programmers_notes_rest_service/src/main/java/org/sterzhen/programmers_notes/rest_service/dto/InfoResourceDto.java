@@ -1,9 +1,8 @@
-package org.sterzhen.programmers_notes.rest_api.dto;
+package org.sterzhen.programmers_notes.rest_service.dto;
 
-/**
- * Information resource
- */
-public class InfoResourceDto {
+import org.sterzhen.programmers_notes.rest_api.dto.InfoResourceApi;
+
+public class InfoResourceDto implements InfoResourceApi {
 
     private Long id;
     private String name;
@@ -20,6 +19,7 @@ public class InfoResourceDto {
         this.description = description;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -28,6 +28,7 @@ public class InfoResourceDto {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -36,6 +37,7 @@ public class InfoResourceDto {
         this.name = name;
     }
 
+    @Override
     public String getAddress() {
         return address;
     }
@@ -44,6 +46,7 @@ public class InfoResourceDto {
         this.address = address;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

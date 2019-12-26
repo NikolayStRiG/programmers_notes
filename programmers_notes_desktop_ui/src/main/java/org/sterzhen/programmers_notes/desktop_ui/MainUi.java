@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceRestApi;
+import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceServiceApi;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,10 @@ import java.awt.event.ActionListener;
 @SpringBootApplication
 public class MainUi implements CommandLineRunner {
 
-    private final InfoResourceRestApi resourceService;
+    private final InfoResourceServiceApi resourceService;
 
     @Autowired
-    public MainUi(InfoResourceRestApi resourceService) {
+    public MainUi(InfoResourceServiceApi resourceService) {
         this.resourceService = resourceService;
     }
 
