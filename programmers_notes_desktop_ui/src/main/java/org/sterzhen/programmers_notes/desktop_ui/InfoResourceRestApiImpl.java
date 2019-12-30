@@ -3,6 +3,8 @@ package org.sterzhen.programmers_notes.desktop_ui;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.sterzhen.programmers_notes.desktop_ui.dto.InfoResourceDto;
+import org.sterzhen.programmers_notes.rest_api.core.Page;
+import org.sterzhen.programmers_notes.rest_api.core.Pageable;
 import org.sterzhen.programmers_notes.rest_api.dto.InfoResourceApi;
 import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceServiceApi;
 
@@ -35,6 +37,26 @@ public class InfoResourceRestApiImpl implements InfoResourceServiceApi {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public Page<InfoResourceApi> getPage(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public InfoResourceApi create(InfoResourceApi resource) {
+        return null;
+    }
+
+    @Override
+    public InfoResourceApi update(InfoResourceApi resource) {
+        return null;
+    }
+
+    @Override
+    public InfoResourceApi deleteById(Long id) {
         return null;
     }
 }

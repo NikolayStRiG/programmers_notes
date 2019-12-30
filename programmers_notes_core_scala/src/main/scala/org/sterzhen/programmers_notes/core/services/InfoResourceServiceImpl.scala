@@ -51,7 +51,7 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
    *
    * @param resource InfoResource
    */
-  override def update(resource: InfoResource): Unit = {
+  override def update(resource: InfoResource): InfoResource = {
     val oldOp = findById(resource.id)
     if (oldOp.isEmpty) {
       throw new EntityNotFoundException("Entity not found")
@@ -64,6 +64,7 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
       throw new IllegalArgumentException("An entity with that address already exists")
     }
     infoResRepository.update(resource)
+    resource
   }
 
   /**
@@ -71,8 +72,8 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
    *
    * @param resource InfoResource
    */
-  override def delete(resource: InfoResource): Unit = {
-    infoResRepository.delete(resource.id)
+  override def delete(resource: InfoResource): InfoResource = {
+    delete(resource.id)
   }
 
   /**
@@ -80,11 +81,12 @@ class InfoResourceServiceImpl(val infoResRepository: InfoResourceRepository) ext
    *
    * @param id InfoResource id
    */
-  override def delete(id: Long): Unit = {
+  override def delete(id: Long): InfoResource = {
     val old = infoResRepository.findById(id)
     if (old.isEmpty) {
       throw new EntityNotFoundException("Entity not found")
     }
     infoResRepository.delete(id)
+    old.get
   }
 }

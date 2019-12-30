@@ -29,19 +29,19 @@ trait InfoResourceService {
    *
    * @param resource InfoResource
    */
-  def update(resource: InfoResource)
+  def update(resource: InfoResource): InfoResource
 
   /**
    * Delete InfoResource
    *
    * @param resource InfoResource
    */
-  def delete(resource: InfoResource)
+  def delete(resource: InfoResource): InfoResource
 
   /**
    * Delete InfoResource by id
    *
    * @param id InfoResource id
    */
-  def delete(id: Long)
+  def delete(id: Long): InfoResource
 }
