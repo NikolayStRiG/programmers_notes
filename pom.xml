@@ -27,7 +27,7 @@
     </licenses>
 
     <modules>
-        <module>programmers_notes_core_scala</module>
+        <module>programmers_notes_core</module>
         <module>programmers_notes_desktop_ui</module>
         <module>programmers_notes_rest_api</module>
         <module>programmers_notes_rest_service</module>
