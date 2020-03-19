@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>org.sterzhen</groupId>
-            <artifactId>programmers_notes_core_scala</artifactId>
+            <artifactId>programmers_notes_core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

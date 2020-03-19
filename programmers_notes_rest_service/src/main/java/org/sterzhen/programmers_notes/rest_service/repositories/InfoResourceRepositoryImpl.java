@@ -1,12 +1,12 @@
 package org.sterzhen.programmers_notes.rest_service.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.sterzhen.programmers_notes.core.damain.InfoResource;
+import org.sterzhen.programmers_notes.core.domain.InfoResource;
 import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository;
-import scala.Option;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -17,47 +17,47 @@ public class InfoResourceRepositoryImpl implements InfoResourceRepository {
     private final AtomicLong idGenerate = new AtomicLong(0);
 
     @Override
-    public Option<InfoResource> findById(long id) {
+    public Optional<InfoResource> findById(Long id) {
         if (resourceMap.containsKey(id)) {
-            return Option.apply(resourceMap.get(id));
+            return Optional.ofNullable(resourceMap.get(id));
         } else {
-            return Option.empty();
+            return Optional.empty();
         }
     }
 
     @Override
     public void insert(InfoResource resource) {
-        if (resourceMap.containsKey(resource.id())) {
+        if (resourceMap.containsKey(resource.getId())) {
             throw new IllegalArgumentException("Unique constraint by id");
         }
-        resourceMap.put(resource.id(), resource);
+        resourceMap.put(resource.getId(), resource);
     }
 
     @Override
     public void update(InfoResource resource) {
-        if (!resourceMap.containsKey(resource.id())) {
+        if (!resourceMap.containsKey(resource.getId())) {
             throw new IllegalArgumentException("Id not found");
         }
-        resourceMap.put(resource.id(), resource);
+        resourceMap.put(resource.getId(), resource);
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         resourceMap.remove(id);
     }
 
     @Override
-    public long nextEntityId() {
+    public Long nextEntityId() {
         return idGenerate.incrementAndGet();
     }
 
     @Override
     public boolean existByName(String name) {
-        return resourceMap.values().stream().anyMatch(r -> r.name().equals(name));
+        return resourceMap.values().stream().anyMatch(r -> r.getName().equals(name));
     }
 
     @Override
     public boolean existByAddress(String address) {
-        return resourceMap.values().stream().anyMatch(r -> r.address().equals(address));
+        return resourceMap.values().stream().anyMatch(r -> r.getAddress().equals(address));
     }
 }

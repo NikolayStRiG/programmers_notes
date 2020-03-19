@@ -2,7 +2,7 @@ package org.sterzhen.programmers_notes.rest_service.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.sterzhen.programmers_notes.core.damain.InfoResource;
+import org.sterzhen.programmers_notes.core.domain.InfoResource;
 import org.sterzhen.programmers_notes.core.services.InfoResourceService;
 import org.sterzhen.programmers_notes.rest_api.core.Page;
 import org.sterzhen.programmers_notes.rest_api.core.Pageable;
@@ -57,7 +57,7 @@ public class InfoResourceController implements InfoResourceServiceApi {
     }
 
     private InfoResourceApi mapToDto(InfoResource o) {
-        return new InfoResourceDto(o.id(), o.name(), o.address(), o.description());
+        return new InfoResourceDto(o.getId(), o.getName(), o.getAddress(), o.getDescription());
     }
 
     private InfoResource mapToEntity(InfoResourceApi dto) {

@@ -51,7 +51,7 @@ public interface InfoResourceRepository {
      * @param name InfoResource name
      * @return true if exists there is otherwise false
      */
-    Boolean existByName(String name);
+    boolean existByName(String name);
 
     /**
      * Exist by address
@@ -59,5 +59,5 @@ public interface InfoResourceRepository {
      * @param address InfoResource name
      * @return true if exists there is otherwise false
      */
-    Boolean existByAddress(String address);
+    boolean existByAddress(String address);
 }
