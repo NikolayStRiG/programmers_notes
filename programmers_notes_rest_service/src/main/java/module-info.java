@@ -1,4 +1,10 @@
-module org.sterzhen.programmers_notes.rest_service {
+open module org.sterzhen.programmers_notes.rest_service {
+    exports org.sterzhen.programmers_notes.rest_service;
+    exports org.sterzhen.programmers_notes.rest_service.repositories;
+    exports org.sterzhen.programmers_notes.rest_service.controllers;
+
+    requires transitive com.fasterxml.classmate;
+
     requires spring.boot.autoconfigure;
     requires spring.boot;
     requires spring.beans;

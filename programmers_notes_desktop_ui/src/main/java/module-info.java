@@ -1,4 +1,4 @@
-module org.sterzhen.programmers_notes.desktop_ui {
+open module org.sterzhen.programmers_notes.desktop_ui {
     requires spring.beans;
     requires spring.boot;
     requires spring.boot.autoconfigure;
