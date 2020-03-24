@@ -2,8 +2,6 @@ package org.sterzhen.rest.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -18,7 +16,7 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
 
     private final Class<T> restInterfaceClass;
     private String rootPath;
-    private final Map<String, MethodDefinition> methodDefinitionMap = new HashMap<>();
+    private final Map<Method, MethodDefinition> methodDefinitionMap = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final HttpClient client;
     private final String address;
@@ -52,13 +50,13 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
         for (Method m : restInterfaceClass.getMethods()) {
             final String name = m.getName();
             final MethodDefinition definition = methodDefinitionFactory.create(m);
-            methodDefinitionMap.put(name, definition);
+            methodDefinitionMap.put(m, definition);
         }
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        final MethodDefinition definition = methodDefinitionMap.get(method.getName());
+        final MethodDefinition definition = methodDefinitionMap.get(method);
         final HttpRequest request =  definition.buildHttpRequest(address, rootPath, args);
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.body().isEmpty() ? null : objectMapper.readValue(response.body(), definition.getOutParam());
