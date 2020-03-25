@@ -18,6 +18,8 @@ import java.time.Duration;
 @Component
 public class InfoResourceRestApiImpl implements InfoResourceServiceApi {
 
+    private static System.Logger logger = System.getLogger(InfoResourceRestApiImpl.class.getName());
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -34,8 +36,11 @@ public class InfoResourceRestApiImpl implements InfoResourceServiceApi {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body().isEmpty() ? null : objectMapper.readValue(response.body(), InfoResourceDto.class);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.log(System.Logger.Level.ERROR, e);
+        } catch (InterruptedException e) {
+            logger.log(System.Logger.Level.WARNING, "Interrupted!", e);
+            Thread.currentThread().interrupt();
         }
         return null;
     }

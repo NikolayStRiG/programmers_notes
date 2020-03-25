@@ -28,7 +28,7 @@ public class MainUi implements CommandLineRunner {
     public void run(String... args) {
 
         JFrame frame = new JFrame("Spring Boot Swing App");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(300,300);
         JPanel panel = new JPanel(new BorderLayout());
         JTextField text = new JTextField("Spring Boot can be used with Swing apps");

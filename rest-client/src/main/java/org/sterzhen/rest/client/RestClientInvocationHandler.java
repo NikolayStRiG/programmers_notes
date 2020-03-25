@@ -21,11 +21,11 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
     private final HttpClient client;
     private final String address;
 
-    public static<T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address) {
+    public static <T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address) {
         return create(restInterfaceClass, address, HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(20)).build());
     }
 
-    public static<T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address, HttpClient client) {
+    public static <T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address, HttpClient client) {
         if (!restInterfaceClass.isInterface()) {
             throw new IllegalArgumentException("Not interface");
         }
@@ -41,14 +41,13 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
     }
 
     private void init(MethodDefinitionFactory methodDefinitionFactory) {
-        final Path rootPath = restInterfaceClass.getAnnotation(Path.class);
-        if (rootPath == null) {
+        final Path path = restInterfaceClass.getAnnotation(Path.class);
+        if (path == null) {
             throw new IllegalArgumentException("Not Path annotation");
         }
-        this.rootPath = rootPath.value();
+        this.rootPath = path.value();
 
         for (Method m : restInterfaceClass.getMethods()) {
-            final String name = m.getName();
             final MethodDefinition definition = methodDefinitionFactory.create(m);
             methodDefinitionMap.put(m, definition);
         }
@@ -57,7 +56,7 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         final MethodDefinition definition = methodDefinitionMap.get(method);
-        final HttpRequest request =  definition.buildHttpRequest(address, rootPath, args);
+        final HttpRequest request = definition.buildHttpRequest(address, rootPath, args);
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.body().isEmpty() ? null : objectMapper.readValue(response.body(), definition.getOutParam());
     }
