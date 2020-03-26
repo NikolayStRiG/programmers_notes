@@ -7,4 +7,5 @@ open module org.sterzhen.programmers_notes.desktop_ui {
     requires com.fasterxml.jackson.databind;
     requires java.net.http;
     requires spring.context;
+    requires org.sterzhen.rest.client;
 }

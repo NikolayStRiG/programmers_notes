@@ -54,4 +54,14 @@ public class InfoResourceDto implements InfoResourceApi {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "InfoResourceDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

@@ -9,9 +9,16 @@ import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceSer
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Objects;
+
+import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.INFO;
 
 @SpringBootApplication
 public class MainUi implements CommandLineRunner {
+
+    public static final String DATA_NOT_FOUND = "Нет данных";
+    private static System.Logger logger = System.getLogger(MainUi.class.getName());
 
     private final InfoResourceServiceApi resourceService;
 
@@ -35,9 +42,12 @@ public class MainUi implements CommandLineRunner {
         panel.add(text, BorderLayout.CENTER);
         Button button = createButton("get info", e -> {
             try {
+                logger.log(INFO, "get info");
                 var r = resourceService.getById(1L);
-                text.setText(r == null ? "" : r.toString());
+                logger.log(INFO, Objects.toString(r, DATA_NOT_FOUND));
+                text.setText(Objects.toString(r));
             } catch (Exception ex) {
+                logger.log(ERROR, "Error getById", ex);
                 text.setText(ex.getMessage());
             }
         });

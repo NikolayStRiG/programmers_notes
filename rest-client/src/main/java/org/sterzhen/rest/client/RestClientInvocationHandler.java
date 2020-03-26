@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,25 +16,22 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
     private final Class<T> restInterfaceClass;
     private String rootPath;
     private final Map<Method, MethodDefinition> methodDefinitionMap = new HashMap<>();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private final HttpClient client;
     private final String address;
 
-    public static <T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address) {
-        return create(restInterfaceClass, address, HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(20)).build());
-    }
-
-    public static <T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address, HttpClient client) {
+    public static <T> RestClientInvocationHandler<T> create(Class<T> restInterfaceClass, String address, HttpClient client, ObjectMapper objectMapper) {
         if (!restInterfaceClass.isInterface()) {
             throw new IllegalArgumentException("Not interface");
         }
-        final RestClientInvocationHandler<T> instant = new RestClientInvocationHandler<>(restInterfaceClass, address, client);
+        final RestClientInvocationHandler<T> instant = new RestClientInvocationHandler<>(restInterfaceClass, objectMapper, address, client);
         instant.init(new MethodDefinitionFactoryImpl());
         return instant;
     }
 
-    private RestClientInvocationHandler(Class<T> restInterfaceClass, String address, HttpClient client) {
+    private RestClientInvocationHandler(Class<T> restInterfaceClass, ObjectMapper objectMapper, String address, HttpClient client) {
         this.restInterfaceClass = restInterfaceClass;
+        this.objectMapper = objectMapper;
         this.address = address;
         this.client = client;
     }

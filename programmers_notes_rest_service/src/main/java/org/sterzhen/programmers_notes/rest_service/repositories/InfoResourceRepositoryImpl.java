@@ -16,6 +16,10 @@ public class InfoResourceRepositoryImpl implements InfoResourceRepository {
 
     private final AtomicLong idGenerate = new AtomicLong(0);
 
+    public InfoResourceRepositoryImpl() {
+        resourceMap.put(1L, InfoResource.of(1L, "Test", "http://localhost:8080/test", "Description"));
+    }
+
     @Override
     public Optional<InfoResource> findById(Long id) {
         if (resourceMap.containsKey(id)) {

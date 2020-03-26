@@ -4,6 +4,7 @@ open module org.sterzhen.programmers_notes.rest_service {
     exports org.sterzhen.programmers_notes.rest_service.controllers;
 
     requires transitive com.fasterxml.classmate;
+    requires transitive com.fasterxml.jackson.databind;
 
     requires spring.boot.autoconfigure;
     requires spring.boot;

@@ -5,6 +5,7 @@ import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import java.lang.reflect.Method;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,11 @@ public class MethodDefinitionFactoryImpl implements MethodDefinitionFactory {
         if (method.getAnnotation(GET.class) != null) {
             return new GetMethodDefinition(name, path.value());
         }
-        throw new NotSupportedException();
+        return new MethodDefinition(name, path.value()) {
+            @Override
+            public HttpRequest buildHttpRequest(String address, String rootPath, Object[] args) {
+                throw new NotSupportedException();
+            }
+        };
     }
 }

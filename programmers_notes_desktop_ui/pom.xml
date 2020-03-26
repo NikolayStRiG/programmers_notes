@@ -14,10 +14,6 @@
     <artifactId>programmers_notes_desktop_ui</artifactId>
     <name>${project.artifactId}</name>
 
-    <properties>
-        <java.version>11</java.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -26,6 +22,11 @@
         <dependency>
             <groupId>org.sterzhen</groupId>
             <artifactId>programmers_notes_rest_api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sterzhen</groupId>
+            <artifactId>rest-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
