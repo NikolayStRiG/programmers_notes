@@ -39,10 +39,27 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <encoding>UTF-8</encoding>
+        <programmers_notes_version>1.0-SNAPSHOT</programmers_notes_version>
     </properties>
 
     <dependencyManagement>
+
         <dependencies>
+            <dependency>
+                <groupId>org.sterzhen</groupId>
+                <artifactId>programmers_notes_core</artifactId>
+                <version>${programmers_notes_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sterzhen</groupId>
+                <artifactId>programmers_notes_rest_api</artifactId>
+                <version>${programmers_notes_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sterzhen</groupId>
+                <artifactId>rest-client</artifactId>
+                <version>${programmers_notes_version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
             <dependency>
                 <groupId>javax.ws.rs</groupId>
@@ -57,7 +74,7 @@
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
 
