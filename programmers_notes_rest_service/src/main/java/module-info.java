@@ -5,6 +5,7 @@ open module org.sterzhen.programmers_notes.rest_service {
 
     requires transitive com.fasterxml.classmate;
     requires transitive com.fasterxml.jackson.databind;
+    requires transitive net.bytebuddy;
 
     requires spring.boot.autoconfigure;
     requires spring.boot;
