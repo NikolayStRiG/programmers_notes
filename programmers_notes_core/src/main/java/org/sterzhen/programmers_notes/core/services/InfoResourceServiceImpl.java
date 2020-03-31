@@ -43,14 +43,13 @@ public class InfoResourceServiceImpl implements InfoResourceService {
         if (address == null || address.isEmpty()) {
             throw new IllegalArgumentException("A address is empty");
         }
-        if (infoResRepository.existByName(name)) {
+        if (infoResRepository.existsByName(name)) {
             throw new IllegalArgumentException("An entity with that name already exists");
         }
-        if (infoResRepository.existByAddress(address)) {
+        if (infoResRepository.existsByAddress(address)) {
             throw new IllegalArgumentException("An entity with that address already exists");
         }
-        final var id = infoResRepository.nextEntityId();
-        final var resource = InfoResource.of(id, name, address, description);
+        final var resource = InfoResource.of(name, address, description);
         infoResRepository.insert(resource);
         return resource;
     }
@@ -67,10 +66,10 @@ public class InfoResourceServiceImpl implements InfoResourceService {
             throw new EntityNotFoundException("Entity not found");
         }
         var old = oldOp.get();
-        if (!old.getName().equals(resource.getName()) && infoResRepository.existByName(resource.getName())) {
+        if (!old.getName().equals(resource.getName()) && infoResRepository.existsByName(resource.getName())) {
             throw new IllegalArgumentException("An entity with that name already exists");
         }
-        if (!old.getAddress().equals(resource.getAddress()) && infoResRepository.existByAddress(resource.getAddress())) {
+        if (!old.getAddress().equals(resource.getAddress()) && infoResRepository.existsByAddress(resource.getAddress())) {
             throw new IllegalArgumentException("An entity with that address already exists");
         }
         infoResRepository.update(resource);

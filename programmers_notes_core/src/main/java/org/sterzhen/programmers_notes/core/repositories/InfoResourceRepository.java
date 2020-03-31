@@ -39,19 +39,12 @@ public interface InfoResourceRepository {
     void delete(Long id);
 
     /**
-     * Return next entity id for
-     *
-     * @return next id
-     */
-    Long nextEntityId();
-
-    /**
      * Exist by name
      *
      * @param name InfoResource name
      * @return true if exists there is otherwise false
      */
-    boolean existByName(String name);
+    boolean existsByName(String name);
 
     /**
      * Exist by address
@@ -59,5 +52,5 @@ public interface InfoResourceRepository {
      * @param address InfoResource name
      * @return true if exists there is otherwise false
      */
-    boolean existByAddress(String address);
+    boolean existsByAddress(String address);
 }

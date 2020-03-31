@@ -7,6 +7,10 @@ public class InfoResource {
     private String address;
     private String description;
 
+    public static InfoResource of(String name, String address, String description) {
+        return of(null, name, address, description);
+    }
+
     public static InfoResource of(Long id, String name, String address, String description) {
         final InfoResource resource = new InfoResource();
         resource.setId(id);
