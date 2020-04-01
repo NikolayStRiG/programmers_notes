@@ -32,6 +32,7 @@
         <module>programmers_notes_rest_api</module>
         <module>programmers_notes_rest_service</module>
         <module>rest-client</module>
+        <module>programmers_notes_fx_ui</module>
     </modules>
 
     <properties>
@@ -67,6 +68,16 @@
                 <version>2.1.1</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>11.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-fxml</artifactId>
+                <version>11.0.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
