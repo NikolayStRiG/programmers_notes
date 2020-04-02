@@ -1,6 +1,7 @@
 package org.sterzhen.programmers_notes.rest_service.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.sterzhen.programmers_notes.core.domain.InfoResource;
 import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository;
@@ -37,19 +38,20 @@ public class InfoResourceDAO implements InfoResourceRepository {
     }
 
     @Override
-    public void insert(InfoResource resource) {
-        if (infoResourceEntityRepository.existsById(resource.getId())) {
+    public InfoResource insert(@NonNull InfoResource resource) {
+        if (resource.getId() != null && infoResourceEntityRepository.existsById(resource.getId())) {
             throw new IllegalArgumentException("Unique constraint by id");
         }
-        infoResourceEntityRepository.save(toEntity(resource));
+        var saveDb = infoResourceEntityRepository.save(toEntity(resource));
+        return toRecourse(saveDb);
     }
 
     @Override
-    public void update(InfoResource resource) {
+    public InfoResource update(InfoResource resource) {
         if (!infoResourceEntityRepository.existsById(resource.getId())) {
             throw new IllegalArgumentException("Id not found");
         }
-        infoResourceEntityRepository.save(toEntity(resource));
+        return toRecourse(infoResourceEntityRepository.save(toEntity(resource)));
     }
 
     @Override

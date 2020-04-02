@@ -22,14 +22,14 @@ public interface InfoResourceRepository {
      *
      * @param resource new InfoResource
      */
-    void insert(InfoResource resource);
+    InfoResource insert(InfoResource resource);
 
     /**
      * Update InfoResource
      *
      * @param resource InfoResource
      */
-    void update(InfoResource resource);
+    InfoResource update(InfoResource resource);
 
     /**
      * Delete InfoResource by id

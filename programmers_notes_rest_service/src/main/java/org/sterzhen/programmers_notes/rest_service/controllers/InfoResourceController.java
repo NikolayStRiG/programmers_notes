@@ -37,7 +37,7 @@ public class InfoResourceController implements InfoResourceServiceApi {
 
     @PostMapping("")
     @Override
-    public InfoResourceApi create(InfoResourceApi resource) {
+    public @ResponseBody InfoResourceApi create(@RequestBody InfoResourceApi resource) {
         var newResource = infoResourceService.create(resource.getName(), resource.getAddress(), resource.getDescription());
         return mapToDto(newResource);
     }

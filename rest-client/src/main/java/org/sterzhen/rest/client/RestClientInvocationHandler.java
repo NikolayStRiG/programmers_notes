@@ -3,6 +3,7 @@ package org.sterzhen.rest.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.ws.rs.Path;
+import javax.ws.rs.ProcessingException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.http.HttpClient;
@@ -25,7 +26,7 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
             throw new IllegalArgumentException("Not interface");
         }
         final RestClientInvocationHandler<T> instant = new RestClientInvocationHandler<>(restInterfaceClass, objectMapper, address, client);
-        instant.init(new MethodDefinitionFactoryImpl());
+        instant.init(new MethodDefinitionFactoryImpl(objectMapper));
         return instant;
     }
 
@@ -54,7 +55,15 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
         final MethodDefinition definition = methodDefinitionMap.get(method);
         final HttpRequest request = definition.buildHttpRequest(address, rootPath, args);
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body().isEmpty() ? null : objectMapper.readValue(response.body(), definition.getOutParam());
+        return response.body().isEmpty() ? null : readBody(definition, response);
+    }
+
+    private Object readBody(MethodDefinition definition, HttpResponse<String> response) {
+        try {
+            return objectMapper.readValue(response.body(), definition.getOutParam());
+        } catch (Exception e) {
+            throw new ProcessingException(response.body(), e);
+        }
     }
 
 }

@@ -50,8 +50,7 @@ public class InfoResourceServiceImpl implements InfoResourceService {
             throw new IllegalArgumentException("An entity with that address already exists");
         }
         final var resource = InfoResource.of(name, address, description);
-        infoResRepository.insert(resource);
-        return resource;
+        return infoResRepository.insert(resource);
     }
 
     /**

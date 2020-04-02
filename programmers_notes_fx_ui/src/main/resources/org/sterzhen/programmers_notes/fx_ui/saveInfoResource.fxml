@@ -3,25 +3,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.sterzhen.programmers_notes.fx_ui.controllers.SaveInfoResourceController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sterzhen.programmers_notes.fx_ui.controllers.SaveInfoResourceController">
 
-    <Label text="Введите данные"/>
-    <Label fx:id="testDate"/>
+    <Label text="Введите данные" />
+    <Label fx:id="testDate" />
     <HBox alignment="CENTER">
-        <Label prefHeight="17.0" prefWidth="57.0" text="Name"/>
-        <TextField fx:id="infoResourceName" prefHeight="32.0" prefWidth="527.0"/>
+        <Label prefHeight="17.0" prefWidth="57.0" text="Name" />
+        <TextField fx:id="infoResourceName" prefHeight="32.0" prefWidth="527.0" />
     </HBox>
     <HBox alignment="CENTER">
-        <Label text="Address"/>
-        <TextField fx:id="infoResourceAddress" prefHeight="32.0" prefWidth="509.0"/>
+        <Label text="Address" />
+        <TextField fx:id="infoResourceAddress" prefHeight="32.0" prefWidth="509.0" />
     </HBox>
     <HBox alignment="CENTER">
-        <Label text="Description"/>
-        <TextArea fx:id="infoResourceDescription" prefHeight="32.0" prefWidth="527.0"/>
+        <Label text="Description" />
+        <TextArea fx:id="infoResourceDescription" prefHeight="32.0" prefWidth="527.0" />
     </HBox>
 
-    <Button onAction="#save" text="Сохранить"/>
+    <Button onAction="#save" text="Сохранить" />
 
 </VBox>

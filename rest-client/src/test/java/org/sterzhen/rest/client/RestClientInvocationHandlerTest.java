@@ -10,10 +10,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -65,6 +61,7 @@ class RestClientInvocationHandlerTest {
         HttpRequest request = captor.getValue();
         assertEquals("http://localhost:8080/api/info_resources/test", request.uri().toString());
         assertEquals(APPLICATION_JSON, request.headers().firstValue(CONTENT_TYPE).get());
+        assertEquals("GET", request.method());
     }
 
     @Test
@@ -80,6 +77,7 @@ class RestClientInvocationHandlerTest {
         HttpRequest request = captor.getValue();
         assertEquals("http://localhost:8080/api/info_resources/1", request.uri().toString());
         assertEquals(APPLICATION_JSON, request.headers().firstValue(CONTENT_TYPE).get());
+        assertEquals("GET", request.method());
     }
 
     @Test
@@ -95,37 +93,23 @@ class RestClientInvocationHandlerTest {
         HttpRequest request = captor.getValue();
         assertEquals("http://localhost:8080/api/info_resources/1/field/fieldName", request.uri().toString());
         assertEquals(APPLICATION_JSON, request.headers().firstValue(CONTENT_TYPE).get());
+        assertEquals("GET", request.method());
     }
 
-    @Path("api/info_resources")
-    public interface TestInterface {
+    @Test
+    public void invokePostTest() throws IOException, InterruptedException {
+        final var testCreate = new TestReturnType();
+        testCreate.setMessage(MESSAGE);
 
-        @GET
-        @Path("test")
-        @Produces(value={"application/json"})
-        TestReturnType getTest();
+        final TestReturnType result = client.create(testCreate);
 
-        @GET
-        @Path("{id}")
-        @Produces(value={"application/json"})
-        TestReturnType getById(@PathParam("id") Long id);
+        ArgumentCaptor<HttpRequest> captor = ArgumentCaptor.forClass(HttpRequest.class);
+        verify(httpClient, times(1)).send(captor.capture(), any(HttpResponse.BodyHandler.class));
 
-        @GET
-        @Path("{id}/field/{name}")
-        @Produces(value={"application/json"})
-        TestReturnType getById(@PathParam("id") Long id, @PathParam("name") String name);
-    }
+        HttpRequest request = captor.getValue();
+        assertEquals("http://localhost:8080/api/info_resources", request.uri().toString());
+        assertEquals(APPLICATION_JSON, request.headers().firstValue(CONTENT_TYPE).get());
+        assertEquals("POST", request.method());
 
-    public static class TestReturnType{
-
-        private String message;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
     }
 }

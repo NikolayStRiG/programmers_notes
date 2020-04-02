@@ -48,7 +48,17 @@ public class SaveInfoResourceController {
             testDate.setText(Objects.toString(r));
         } catch (Exception ex) {
             logger.log(ERROR, "Error create InfoResource", ex);
-            testDate.setText("Error create InfoResource: " + ex.getMessage());
+            testDate.setText("Error create InfoResource: " + getMessage(ex));
         }
+    }
+
+    private String getMessage(Throwable t) {
+        if (t.getMessage() != null) {
+            return t.getMessage();
+        }
+        if (t.getCause() != null) {
+            return getMessage(t.getCause());
+        }
+        return "";
     }
 }
