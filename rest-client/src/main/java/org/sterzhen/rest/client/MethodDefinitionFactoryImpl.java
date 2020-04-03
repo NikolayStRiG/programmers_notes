@@ -53,6 +53,12 @@ public class MethodDefinitionFactoryImpl implements MethodDefinitionFactory {
         if (method.getAnnotation(POST.class) != null) {
             return new PostMethodDefinition(name, path.value(), objectMapper);
         }
+        if (method.getAnnotation(PUT.class) != null) {
+            return new PutMethodDefinition(name, path.value(), objectMapper);
+        }
+        if (method.getAnnotation(DELETE.class) != null) {
+            return new DeleteMethodDefinition(name, path.value());
+        }
         return new MethodDefinition(name, path.value()) {
             @Override
             public HttpRequest buildHttpRequest(String address, String rootPath, Object[] args) {

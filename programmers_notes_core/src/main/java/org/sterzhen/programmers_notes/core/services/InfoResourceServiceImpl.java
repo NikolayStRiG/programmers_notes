@@ -4,6 +4,7 @@ import org.sterzhen.programmers_notes.core.domain.InfoResource;
 import org.sterzhen.programmers_notes.core.exceptions.EntityNotFoundException;
 import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,11 @@ public class InfoResourceServiceImpl implements InfoResourceService {
     @Override
     public Optional<InfoResource> findById(Long id) {
         return infoResRepository.findById(id);
+    }
+
+    @Override
+    public List<InfoResource> findAll() {
+        return infoResRepository.findAll();
     }
 
     /**

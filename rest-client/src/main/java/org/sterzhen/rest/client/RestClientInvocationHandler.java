@@ -1,6 +1,7 @@
 package org.sterzhen.rest.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.ProcessingException;
@@ -9,7 +10,9 @@ import java.lang.reflect.Method;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RestClientInvocationHandler<T> implements InvocationHandler {
@@ -55,7 +58,16 @@ public class RestClientInvocationHandler<T> implements InvocationHandler {
         final MethodDefinition definition = methodDefinitionMap.get(method);
         final HttpRequest request = definition.buildHttpRequest(address, rootPath, args);
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body().isEmpty() ? null : readBody(definition, response);
+        if (response.body().isEmpty()) {
+            return null;
+        }
+        if (Collection.class.isAssignableFrom(definition.getOutParam())) {
+            var deserialize = method.getAnnotation(JsonDeserialize.class);
+            return objectMapper.readValue(response.body(),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, deserialize.contentAs()));
+        } else {
+            return readBody(definition, response);
+        }
     }
 
     private Object readBody(MethodDefinition definition, HttpResponse<String> response) {

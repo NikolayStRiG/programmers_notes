@@ -2,6 +2,7 @@ package org.sterzhen.programmers_notes.core.repositories;
 
 import org.sterzhen.programmers_notes.core.domain.InfoResource;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,4 +54,11 @@ public interface InfoResourceRepository {
      * @return true if exists there is otherwise false
      */
     boolean existsByAddress(String address);
+
+    /**
+     * Find all InfoResource
+     *
+     * @return List<InfoResource>
+     */
+    List<InfoResource> findAll();
 }

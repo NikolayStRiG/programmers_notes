@@ -1,10 +1,12 @@
 package org.sterzhen.programmers_notes.rest_api.service_interface;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.sterzhen.programmers_notes.rest_api.core.Page;
 import org.sterzhen.programmers_notes.rest_api.core.Pageable;
 import org.sterzhen.programmers_notes.rest_api.dto.InfoResourceApi;
 
 import javax.ws.rs.*;
+import java.util.List;
 
 /**
  * An interface that describes methods over an information resource
@@ -24,12 +26,23 @@ public interface InfoResourceServiceApi {
     InfoResourceApi getById(@PathParam("id") Long id);
 
     /**
+     * Get all information
+     *
+     * @return information resource list
+     */
+    @GET
+    @Path("")
+    @Produces(value={"application/json"})
+    @JsonDeserialize(contentAs = InfoResourceApi.class)
+    List<InfoResourceApi> getAll();
+
+    /**
      * Return information resource page by pageable
      * @param pageable Pageable
      * @return Page<InfoResourceApi>
      */
     @GET
-    @Path("")
+    @Path("/page")
     @Consumes(value={"application/json"})
     @Produces(value={"application/json"})
     Page<InfoResourceApi> getPage(Pageable pageable);
@@ -53,7 +66,7 @@ public interface InfoResourceServiceApi {
      * @return information resource
      */
     @PUT
-    @Path("/{id}")
+    @Path("")
     @Consumes(value={"application/json"})
     @Produces(value={"application/json"})
     InfoResourceApi update(InfoResourceApi resource);

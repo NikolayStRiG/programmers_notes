@@ -8,7 +8,9 @@ import org.sterzhen.programmers_notes.core.repositories.InfoResourceRepository;
 import org.sterzhen.programmers_notes.rest_service.dao.entities.InfoResourceEntity;
 import org.sterzhen.programmers_notes.rest_service.dao.repositories.InfoResourceEntityRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class InfoResourceDAO implements InfoResourceRepository {
@@ -67,5 +69,10 @@ public class InfoResourceDAO implements InfoResourceRepository {
     @Override
     public boolean existsByAddress(String address) {
         return infoResourceEntityRepository.existsByAddress(address);
+    }
+
+    @Override
+    public List<InfoResource> findAll() {
+        return infoResourceEntityRepository.findAll().stream().map(this::toRecourse).collect(Collectors.toList());
     }
 }

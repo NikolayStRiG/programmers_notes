@@ -38,7 +38,7 @@ abstract class MethodDefinition {
     public abstract HttpRequest buildHttpRequest(final String address, final String rootPath, final Object[] args);
 
     protected String getPath(Object[] args) {
-        String result = path.isEmpty() ? "" : "/" + path;
+        String result = path.isEmpty() || path.startsWith("/") ? path : "/" + path;
         for (ParamDefinition d : paramDefinitionMap.values()) {
             result = result.replaceFirst("\\{" + d.getName() + "}", args[d.getIndex()].toString());
         }

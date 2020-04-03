@@ -16,6 +16,7 @@ open module org.sterzhen.programmers_notes.rest_service {
     requires spring.web;
     requires spring.context;
     requires spring.data.commons;
+    requires spring.data.jpa;
     requires spring.core;
     requires java.persistence;
     requires java.annotation;

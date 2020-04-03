@@ -2,6 +2,7 @@ package org.sterzhen.programmers_notes.core.services;
 
 import org.sterzhen.programmers_notes.core.domain.InfoResource;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,6 +17,13 @@ public interface InfoResourceService {
      * @return Option[InfoResource]
      */
     Optional<InfoResource> findById(Long id);
+
+    /**
+     * Find all InfoResource
+     *
+     * @return List<InfoResource>
+     */
+    List<InfoResource> findAll();
 
     /**
      * Create new InfoResource

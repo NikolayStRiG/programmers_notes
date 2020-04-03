@@ -5,5 +5,6 @@ open module org.sterzhen.programmers_notes.rest_api {
 
     requires transitive java.xml.bind;
 
+    requires com.fasterxml.jackson.databind;
     requires java.ws.rs;
 }

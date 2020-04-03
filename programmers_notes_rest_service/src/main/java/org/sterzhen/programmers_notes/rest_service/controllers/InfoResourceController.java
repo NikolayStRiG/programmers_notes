@@ -10,6 +10,9 @@ import org.sterzhen.programmers_notes.rest_api.dto.InfoResourceApi;
 import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceServiceApi;
 import org.sterzhen.programmers_notes.rest_service.dto.InfoResourceDto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/info_resources")
@@ -29,29 +32,36 @@ public class InfoResourceController implements InfoResourceServiceApi {
         return op.isEmpty() ? null : op.get();
     }
 
-    @GetMapping("")
+    @GetMapping
+    @Override
+    public List<InfoResourceApi> getAll() {
+        return infoResourceService.findAll().stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+
+    @GetMapping("/page")
     @Override
     public Page<InfoResourceApi> getPage(Pageable pageable) {
         return null;
     }
 
-    @PostMapping("")
+    @PostMapping
     @Override
     public @ResponseBody InfoResourceApi create(@RequestBody InfoResourceApi resource) {
         var newResource = infoResourceService.create(resource.getName(), resource.getAddress(), resource.getDescription());
         return mapToDto(newResource);
     }
 
-    @PutMapping("{id}")
+    @PutMapping
     @Override
-    public InfoResourceApi update(InfoResourceApi resource) {
+    public @ResponseBody InfoResourceApi update(@RequestBody InfoResourceApi resource) {
         var updateResource = infoResourceService.update(mapToEntity(resource));
         return mapToDto(updateResource);
     }
 
     @DeleteMapping("{id}")
     @Override
-    public InfoResourceApi deleteById(Long id) {
+    public @ResponseBody InfoResourceApi deleteById(@PathVariable Long id) {
         var old = infoResourceService.delete(id);
         return mapToDto(old);
     }
