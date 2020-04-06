@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.sterzhen.programmers_notes.fx_ui.dto.InfoResourceDto;
+import org.sterzhen.programmers_notes.rest_api.core.Pageable;
 import org.sterzhen.programmers_notes.rest_api.dto.InfoResourceApi;
 import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceServiceApi;
 
@@ -46,6 +47,11 @@ public class SaveInfoResourceController {
 
     @FXML
     private ListView<InfoResourceApi> infoResourceList;
+
+    @FXML
+    public TextField pageInfo;
+    @FXML
+    public ListView infoResourcePage;
 
     @FXML
     public void save() {
@@ -152,5 +158,31 @@ public class SaveInfoResourceController {
                 infoResourceList.getItems().remove(i);
             }
         }
+    }
+
+    public void refreshPage() {
+        var pageable = new Pageable(0, 10);
+        var result = infoResourceService.getPage(pageable);
+        pageInfo.setText(Objects.toString(result.getNumber(), ""));
+        infoResourcePage.getItems().clear();
+        infoResourcePage.getItems().addAll(result.getContent());
+    }
+
+    public void nextPage() {
+        int num = pageInfo.getText().isEmpty() ? 0 : Integer.parseInt(pageInfo.getText());
+        var pageable = new Pageable(++num, 10);
+        var result = infoResourceService.getPage(pageable);
+        pageInfo.setText(Objects.toString(result.getNumber(), ""));
+        infoResourcePage.getItems().clear();
+        infoResourcePage.getItems().addAll(result.getContent());
+    }
+
+    public void previousPage() {
+        int num = pageInfo.getText().isEmpty() ? 0 : Integer.parseInt(pageInfo.getText());
+        var pageable = new Pageable(--num, 10);
+        var result = infoResourceService.getPage(pageable);
+        pageInfo.setText(Objects.toString(result.getNumber(), ""));
+        infoResourcePage.getItems().clear();
+        infoResourcePage.getItems().addAll(result.getContent());
     }
 }

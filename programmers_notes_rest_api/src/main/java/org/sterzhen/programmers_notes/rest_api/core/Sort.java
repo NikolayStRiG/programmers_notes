@@ -5,13 +5,38 @@ import java.util.List;
 /**
  * Sort option for queries.
  */
-public interface Sort {
+public class Sort {
 
-    List<Order> getOrders();
+    private List<Order> orders;
 
-    interface Order {
-        Direction getDirection();
-        String getProperty();
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public static class Order {
+
+        private Direction direction;
+        private String property;
+
+        public Direction getDirection() {
+            return direction;
+        }
+
+        public void setDirection(Direction direction) {
+            this.direction = direction;
+        }
+
+        public String getProperty() {
+            return property;
+        }
+
+        public void setProperty(String property) {
+            this.property = property;
+        }
     }
 
     enum  Direction {

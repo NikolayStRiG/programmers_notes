@@ -11,7 +11,8 @@ import org.sterzhen.programmers_notes.rest_api.service_interface.InfoResourceSer
 import org.sterzhen.programmers_notes.rest_service.dto.InfoResourceDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @CrossOrigin
 @RestController
@@ -35,33 +36,42 @@ public class InfoResourceController implements InfoResourceServiceApi {
     @GetMapping
     @Override
     public List<InfoResourceApi> getAll() {
-        return infoResourceService.findAll().stream().map(this::mapToDto).collect(Collectors.toList());
+        return infoResourceService.findAll().stream().map(this::mapToDto).collect(toList());
     }
 
 
-    @GetMapping("/page")
+    @PostMapping("/page")
     @Override
-    public Page<InfoResourceApi> getPage(Pageable pageable) {
-        return null;
+    public @ResponseBody
+    Page<InfoResourceApi> getPage(@RequestBody Pageable pageable) {
+         var result = infoResourceService.findAll();
+        var page = result.stream()
+                .skip((long) pageable.getPageNumber() * pageable.getPageSize())
+                .limit(pageable.getPageSize())
+                .map(this::mapToDto).collect(toList());
+        return new Page<>(pageable.getPageNumber(), pageable.getPageSize(), result.size() / pageable.getPageSize(), result.size(), page);
     }
 
     @PostMapping
     @Override
-    public @ResponseBody InfoResourceApi create(@RequestBody InfoResourceApi resource) {
+    public @ResponseBody
+    InfoResourceApi create(@RequestBody InfoResourceApi resource) {
         var newResource = infoResourceService.create(resource.getName(), resource.getAddress(), resource.getDescription());
         return mapToDto(newResource);
     }
 
     @PutMapping
     @Override
-    public @ResponseBody InfoResourceApi update(@RequestBody InfoResourceApi resource) {
+    public @ResponseBody
+    InfoResourceApi update(@RequestBody InfoResourceApi resource) {
         var updateResource = infoResourceService.update(mapToEntity(resource));
         return mapToDto(updateResource);
     }
 
     @DeleteMapping("{id}")
     @Override
-    public @ResponseBody InfoResourceApi deleteById(@PathVariable Long id) {
+    public @ResponseBody
+    InfoResourceApi deleteById(@PathVariable Long id) {
         var old = infoResourceService.delete(id);
         return mapToDto(old);
     }

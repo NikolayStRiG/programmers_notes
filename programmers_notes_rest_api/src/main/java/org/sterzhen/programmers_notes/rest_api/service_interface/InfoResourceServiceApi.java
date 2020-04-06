@@ -41,7 +41,7 @@ public interface InfoResourceServiceApi {
      * @param pageable Pageable
      * @return Page<InfoResourceApi>
      */
-    @GET
+    @POST
     @Path("/page")
     @Consumes(value={"application/json"})
     @Produces(value={"application/json"})
